@@ -1,0 +1,51 @@
+Copyright (C) 2016 VRVis.
+All rights reserved.
+Contact: VRVis Forschungs-GmbH (office@vrvis.at)
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. All advertising materials mentioning features or use of this software
+   must display the following acknowledgement:
+   This product includes software developed by the VRVis Forschungs-GmbH.
+4. Neither the name of the VRVis Forschungs-GmbH nor the
+   names of its contributors may be used to endorse or promote products
+   derived from this software without specific prior written permission.
+
+1) You need the NRRD Format File Reader from 
+http://www.mathworks.com/matlabcentral/fileexchange/34653-nrrd-format-file-reader/content/nrrdread.m
+copy this file into this folder.
+
+2) Open the run_matalb.m script. The comments are 
+self-explanatory. It downloads gene-expression
+data and connectivity from the Allen Brain Atlas API
+
+3) Open the predict_brain_networks.R script. It works with
+the data that has been generated in step 2. The script was 
+tested on a Ubuntu 14.04 linux machine with 250GB Ram and 
+20 cores with R 3.2.3. Some packages will not run with a 
+version prior 3.2.
+
+File overview:
+
+run_matlab.m
+	script to download gene-expression and connectivity data
+
+estimate_Mean_STD_of_GeneExpression.m         
+get_gene_expression_for_random_genes.m
+get_gene_expression_for_genesets.m
+goToChildNode.m
+interpolateFrom200micron.m
+	these functions are used by run_matlab.m
+	
+test_genesets.csv
+	list of genes that can be used for testing
+	
+predict_brain_networks.R
+	script for predicting brian networks and plots them
+gene_set_selection.R
+	script for maximizing contrast of gene expression synergy for gene sets
