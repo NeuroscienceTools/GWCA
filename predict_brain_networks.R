@@ -157,12 +157,14 @@ plot_mri_style_image<-function(path_to_file,plotPvals,fdr005,fdr01){
       im<-im[,dim(im)[2]:1]
       
       
-      rb<-jet.colors(-log10(minimumPValueToVisualize)*100*100)
+      rb<-jet.colors(-log10(minimumPValueToVisualize)*100)
       rb<-rb[1:round(max(im)/(-log10(minimumPValueToVisualize)*100)*length(rb))]
       
-      im<-resizeImage(im,dim(im)[1]*2,dim(im)[2]*2)
-      im<-image.smooth(im, theta=1)$z  #smoothes image
-      image(im, xaxt= "n", yaxt= "n",col=c("#000000",rb) )
+      im<-resizeImage(im,dim(im)[1]*2,dim(im)[2]*2) #upscaling image when using 100 micron resolution
+      #replace by im<-resizeImage(im,dim(im)[1]*4,dim(im)[2]*4)  when using 200 micron resolution
+     
+      im<-image.smooth(im, theta=1)$z  #smoothes image after upscaling
+      image(im, xaxt= "n", yaxt= "n",col=c(rep("#000000",9),rb) )
       
     }
     image.scale <- function(z, zlim, col = heat.colors(12),
@@ -208,7 +210,7 @@ plot_mri_style_image<-function(path_to_file,plotPvals,fdr005,fdr01){
     
     par(mgp=c(5,6,0))
     par(mar=c(15,5,15,5))
-    image.scale(m/100,col=rb)
+    image.scale(c(0,(-log10(minimumPValueToVisualize))),col=jet.colors(-log10(minimumPValueToVisualize)*100))
     dev.off()
     
   }
@@ -356,6 +358,7 @@ for(actRand in 1:amountOfRandomFiles){
 }
 remove(hexpressionOfRandomGenes)
 
+#Voxel wise standardization has already been done in matlab code
 print(paste0("Check distribution mean (should be close to 0): ",mean(apply(expressionOfRandomGenes,1,function(x){mean(x,na.rm=TRUE)}))))
 print(paste0("Check distribution std (should be close to 1): ",mean(apply(expressionOfRandomGenes,1,function(x){sd(x,na.rm=TRUE)}))))
 
